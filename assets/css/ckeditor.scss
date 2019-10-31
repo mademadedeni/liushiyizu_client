@@ -1,0 +1,77 @@
+.ck-body .ck.ck-balloon-panel {
+  z-index: 9999;
+}
+
+.ck.ck-content {
+  line-height: 1.5;
+  min-height: 30vh;
+  ol {
+    padding-left: 20px;
+    li {
+      list-style: decimal;
+      display: list-item;
+    }
+  }
+  ul {
+    padding-left: 20px;
+    li {
+      list-style: disc;
+      display: list-item;
+    }
+  }
+}
+.ckeditor {
+  line-height: 1.5;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  padding: 10px;
+  max-height: 500px;
+  min-height: 20px;
+  overflow: auto;
+  ol {
+    padding-left: 20px;
+    li {
+      list-style: decimal;
+      display: list-item;
+    }
+  }
+  ul {
+    padding-left: 20px;
+    li {
+      list-style: disc;
+      display: list-item;
+    }
+  }
+  .table {
+    margin: 1em auto;
+    margin-top: 1em;
+    display: table;
+    table {
+      border-collapse: collapse;
+      border-spacing: 0;
+      border: 1px double #b3b3b3;
+
+      td,
+      th {
+        min-width: 2em;
+        padding: 0.4em;
+        border: 1px solid #d9d9d9;
+      }
+    }
+  }
+  blockquote {
+    overflow: hidden;
+    padding-right: 1.5em;
+    padding-left: 1.5em;
+    margin-left: 0;
+    font-style: italic;
+    border-left: 5px solid #ccc;
+  }
+}
+
+.ckeditor_placeholder{
+    color:#999;
+    position: absolute;
+    padding-left: 0.6em;
+    top:15px;
+}

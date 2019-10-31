@@ -1,0 +1,7 @@
+{
+    "type": "node",
+    "request": "launch",
+    "name": "launch nuxt",
+    "protocol": "inspector",
+    "program": "${workspaceRoot}/node_modules/.bin/nuxt"
+}
