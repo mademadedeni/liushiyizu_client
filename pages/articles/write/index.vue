@@ -6,9 +6,9 @@
       <div class="auto_box Ptp60" style="width:900px;">
         <div>
           <el-input
-            placeholder="请输入标题（最多30个字）"
+            placeholder="请输入标题（最多50个字）"
             v-model.trim="article.title"
-            :maxlength="30"
+            :maxlength="50"
             :minlength="3"
             clearable
           ></el-input>
@@ -127,8 +127,8 @@ export default {
     onCommit: function() {
       var that = this;
       var words = that.wordCount();
-      if (that.article.title.length > 30) {
-        that.$message.error("标题最多输入30个字！");
+      if (that.article.title.length > 50) {
+        that.$message.error("标题最多输入50个字！");
         return;
       }
 
