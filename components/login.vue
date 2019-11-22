@@ -7,17 +7,8 @@
       </div>
       <div class="content_box">
         <div class="value_box">
-          <!-- <input
-            @keyup.enter="onLogin"
-            v-model.trim="name"
-            class="input0"
-            type="text"
-            name="name"
-            placeholder="用户名"
-            maxlength="16"
-          />-->
           <el-input
-            @keyup.enter="onLogin"
+            @keyup.enter.native="onLogin"
             maxlength="16"
             v-model="name"
             name="userName"
@@ -25,17 +16,8 @@
           ></el-input>
         </div>
         <div class="value_box">
-          <!-- <input
-            @keyup.enter="onLogin"
-            v-model.trim="password"
-            class="input0"
-            type="password"
-            name="name"
-            placeholder="入密码"
-            maxlength="16"
-          />-->
           <el-input
-            @keyup.enter="onLogin"
+            @keyup.enter.native="onLogin"
             maxlength="16"
             v-model="password"
             placeholder="请输入用户名"
@@ -69,7 +51,7 @@
       <div class="content_box">
         <div class="value_box">
           <input
-            @keyup.enter="onSignIn"
+            @keyup.enter.native="onSignIn"
             v-model.trim="signInName"
             class="input0"
             type="text"
@@ -80,7 +62,7 @@
         </div>
         <div class="value_box">
           <input
-            @keyup.enter="onSignIn"
+            @keyup.enter.native="onSignIn"
             v-model.trim="signInPwd"
             class="input0"
             type="password"
@@ -91,7 +73,7 @@
         </div>
         <div class="option_box">
           <input
-            @keyup.enter="onSignIn"
+            @keyup.enter.native="onSignIn"
             v-model.trim="captcha"
             class="input0"
             type="text"

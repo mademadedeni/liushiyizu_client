@@ -3,6 +3,8 @@ import _ from "lodash";
 
 var baseUrl = process.env.baseUrl;
 var apiUrl = process.env.apiUrl;
+// console.log("baseUrl:",baseUrl);
+// console.log("apiUrl:",apiUrl);
 
 const config = {
     ctx: baseUrl,
