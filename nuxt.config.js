@@ -1,5 +1,5 @@
 const pkg = require('./package');
-const isDev = process.env.NODE_ENV == "development";
+const isDev = process.env.NODE_ENV == "development" || process.env.NODE_ENV == undefined;
 
 module.exports = {
     mode: 'universal',

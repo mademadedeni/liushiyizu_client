@@ -13,7 +13,7 @@
               <a :href="ctx+'/articles/'+article.id" class="title" target="_blank">
                 <h3 class="p_ibt">{{article.title}}</h3>
               </a>
-              <div v-if="article.userId == user.userId || user.permission == 1" class="right">
+              <div v-if="article.userId == user.id || user.permission == 1" class="right">
                 <a @click="delArticle(article.id,article.userId)" href="javascript:;">删除</a>
                 <a class="Mlf20" :href="ctx+'/articles/write/'+article.id" target="_blank">编辑</a>
               </div>
@@ -131,11 +131,11 @@ export default {
     },
     delArticle: function(articles_id, user_id) {
       var that = this;
-      if (!that.user.userId) {
+      if (!that.user.id) {
         that.showLogin = 1;
         return;
       }
-      if (that.user.userId != user_id && that.user.userId != 1) {
+      if (that.user.id != user_id && that.user.id != 1) {
         that.$message.error("只能删除自己的文章！");
         return false;
       }

@@ -26,7 +26,10 @@
           </div>
         </div>
         <div class="Pbm60">
-          <div class="ck ck-content ck-editor__editable ck-rounded-corners ck-editor__editable_inline ck-blurred" v-html="article.content"></div>
+          <div
+            class="ck ck-content ck-editor__editable ck-rounded-corners ck-editor__editable_inline ck-blurred"
+            v-html="article.content"
+          ></div>
         </div>
       </div>
     </LiuMain>
@@ -52,26 +55,29 @@ export default {
   data() {
     return {
       user: {},
-      article:{}
+      article: {}
     };
   },
   asyncData({ params }) {
-    return api.get("/articles/" + params.id).then(res => {
-      res.data.data.content = utils.replaceHost(
-        res.data.data.content
-      );
-      return { article: res.data.data };
-    });
+    return api
+      .get("/articles/" + params.id)
+      .then(res => {
+        res.data.data.content = utils.replaceHost(res.data.data.content);
+        return { article: res.data.data };
+      })
+      .catch(err => {
+        return {};
+      });
   },
   head() {
     return {
       title: this.article.title + this.title
     };
   },
-//   validate({ params }) {
-//     // 必须是number类型
-//     return /^\d+$/.test(params.id);
-//   },
+    validate({ params }) {
+      // 必须是number类型
+      return (params.id+"").length == 32;
+    },
   mounted: function() {
     this.$nextTick(function() {
       // this.init();
@@ -95,7 +101,7 @@ export default {
       }
     },
     dateFormat: function(date) {
-      return utils.dateFormat({dateTime:date});
+      return utils.dateFormat({ dateTime: date });
     },
     getUser: function(user) {
       this.user = user;
