@@ -5,7 +5,7 @@ module.exports = {
     mode: 'universal',
     env: {
         baseUrl: isDev ? 'http://localhost:3000' : 'http://www.liushiyizu.top',
-        apiUrl: isDev ? 'http://localhost:4000' : 'http://www.liushiyizu.top',
+        apiUrl: isDev ? 'http://localhost.yuyou:4000' : 'http://www.liushiyizu.top',
     },
     server: isDev ? undefined : {
         port: 8686,

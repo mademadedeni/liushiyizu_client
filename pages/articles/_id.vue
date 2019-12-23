@@ -6,10 +6,9 @@
         <div class="Ptp30">
           <h1 class="p_ibt co_333">{{article.title}}</h1>
           <div class="article_author">
-            <img class="img" :src="res+article.avatar" />
+            <img class="img" :src="res+article.user.avatar" />
             <div class="p_ibt Mlf20">
-              <span class="p_ibt Mtp10">{{article.nickname}}</span>
-              <div class="signature">{{article.signature}}</div>
+              <span class="p_ibt Mtp10">{{article.user.nickname}}</span>
             </div>
             <div class="date_box">
               <span>创建时间：</span>
@@ -85,7 +84,7 @@ export default {
   },
   computed: {
     isCreator: function() {
-      return this.article.userId == this.user.id;
+      return this.article.user.id == this.user.id;
     }
   },
   methods: {

@@ -5,6 +5,6 @@ export default function (context) {
     var isPCEnv = utils.isPCEnv(context.userAgent);
 
     if (!isPCEnv && !context.req.url.startsWith("/mobile")) {
-        context.redirect('/mobile');
+        context.redirect('http://10.17.2.1:5000/mobile');
     }
 }

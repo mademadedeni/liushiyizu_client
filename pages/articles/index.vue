@@ -13,14 +13,14 @@
               <a :href="ctx+'/articles/'+article.id" class="title" target="_blank">
                 <h3 class="p_ibt">{{article.title}}</h3>
               </a>
-              <div v-if="article.userId == user.id || user.permission == 1" class="right">
-                <a @click="delArticle(article.id,article.userId)" href="javascript:;">删除</a>
+              <div v-if="article.user.id == user.id || user.permission == 1" class="right">
+                <a @click="delArticle(article.id,article.user.id)" href="javascript:;">删除</a>
                 <a class="Mlf20" :href="ctx+'/articles/write/'+article.id" target="_blank">编辑</a>
               </div>
             </div>
             <div class="head_box Mtp10">
-              <img class="img" :src="res+article.avatar" />
-              <span class="p_ibt Mtp10 Mlf20">{{article.nickname}}</span>
+              <img class="img" :src="res+article.user.avatar" />
+              <span class="p_ibt Mtp10 Mlf20">{{article.user.nickname}}</span>
             </div>
             <div class="content" v-html="article.content"></div>
             <div class="date_box">

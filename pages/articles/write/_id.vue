@@ -150,7 +150,7 @@ export default {
       api
         .post(`/articles/${that.article.id}/update`, {
           id: that.article.id,
-          userId: that.article.userId,
+          userId: that.article.user.id,
           title: that.article.title,
           content: that.article.content
         })
@@ -169,7 +169,7 @@ export default {
     },
     getUser: function(user) {
       this.user = user;
-      this.article.user_id = this.user.user_id;
+      this.article.user.id = this.user.id;
     }
   }
 };
