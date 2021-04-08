@@ -130,7 +130,7 @@ export default {
     onCommit: function() {
       var that = this;
       var words = that.wordCount();
-      if (!that.article.title.length) {
+      if (!that.article.title) {
         that.$message.error("标题不能为空！");
         return;
       }

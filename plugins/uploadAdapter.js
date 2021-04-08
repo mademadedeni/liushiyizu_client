@@ -21,7 +21,7 @@ class UploadAdapter {
                 api.post(url, formData, { withCredentials: true }).then(({ data: rsp }) => {
                     if (rsp.success) {
                         resolve({
-                            default: common.res + rsp.url
+                            default:common.res + rsp.data.url
                         });
                     } else {
                         reject(rsp.data);

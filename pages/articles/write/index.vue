@@ -127,6 +127,10 @@ export default {
     onCommit: function() {
       var that = this;
       var words = that.wordCount();
+      if(!that.article.title){
+          that.$message.error("标题不能为空！");
+          return;
+      }
       if (that.article.title.length > 50) {
         that.$message.error("标题最多输入50个字！");
         return;
