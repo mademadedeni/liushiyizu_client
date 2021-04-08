@@ -3,12 +3,13 @@ import _ from "lodash";
 
 var baseUrl = process.env.baseUrl;
 var apiUrl = process.env.apiUrl;
+var resources = process.env.resources;
 // console.log("baseUrl:",baseUrl);
 // console.log("apiUrl:",apiUrl);
 
 const config = {
     ctx: baseUrl,
-    res: apiUrl,
+    res: resources,
     api: apiUrl + "/api",
     timeout: 10000,
     title: "-刘氏一族",

@@ -168,7 +168,7 @@ export default {
         return;
       }
       api
-        .post(that.api + "/user/login", param)
+        .post("/user/login", param)
         .then(function(res) {
           if (res.data.success) {
             window.location.reload();
