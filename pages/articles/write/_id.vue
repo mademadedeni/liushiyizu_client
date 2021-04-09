@@ -1,14 +1,20 @@
 <template>
   <div>
     <!-- header -->
-    <LiuHeader :tab-id="4" @get-user="getUser"></LiuHeader>
+    <LiuHeader
+      :tab-id="4"
+      @get-user="getUser"
+    ></LiuHeader>
     <LiuMain>
-      <div class="auto_box Ptp60" style="width:900px;">
+      <div
+        class="auto_box Ptp60"
+        style="width:900px;"
+      >
         <div>
           <el-input
-            placeholder="请输入标题（最多30个字）"
-            v-model.trim="article.title"
-            :maxlength="30"
+            placeholder="请输入标题（最多100个字）"
+            v-model="article.title"
+            :maxlength="100"
             :minlength="3"
             clearable
           ></el-input>
@@ -16,12 +22,23 @@
         <div class="Ptp30">
           <div ref="toolbar"></div>
           <div class="Mtp30 posr">
-            <div v-show="placeholder" class="ckeditor_placeholder">请输入正文</div>
-            <div id="editor"></div>
+            <no-ssr>
+              <ckeditor
+                :editor="CKEDITOR"
+                v-model="article.content"
+                :config="editorConfig"
+                @ready="onReady"
+              ></ckeditor>
+            </no-ssr>
           </div>
         </div>
         <div class="Ptp30 Tright">
-          <el-button @click="onCommit" type="primary" round size="medium">提 交</el-button>
+          <el-button
+            @click="onCommit"
+            type="primary"
+            round
+            size="medium"
+          >提 交</el-button>
         </div>
       </div>
     </LiuMain>
@@ -37,6 +54,7 @@ import { api } from "~/assets/js/common/axios.js";
 import utils from "~/assets/js/utils.js";
 import uploadAdapter from "~/plugins/uploadAdapter.js";
 import "~/assets/css/ckeditor.scss";
+
 let ckeditorDocument;
 if (process.browser) {
   ckeditorDocument = require("@ckeditor/ckeditor5-build-decoupled-document");
@@ -46,11 +64,11 @@ export default {
   components: {
     LiuHeader,
     LiuMain,
-    LiuFooter
+    LiuFooter,
   },
   head() {
     return {
-      title: "写文章" + this.title
+      title: "写文章" + this.title,
     };
   },
   data() {
@@ -60,53 +78,33 @@ export default {
       user: {},
       editor: {},
       placeholder: true,
-      content: ""
+      CKEDITOR: ckeditorDocument,
+      editorConfig: utils.getEditorConfig({
+        placeholder: '请输入正文',
+        extraPlugins: [uploadAdapter("/editor/upload?action=uploadimage")],
+      }),
     };
   },
-  asyncData: function({ params }) {
-    return api.get("/articles/" + params.id).then(res => {
+  asyncData: function ({ params }) {
+    return api.get("/articles/" + params.id).then((res) => {
       res.data.data.content = utils.replaceHost(res.data.data.content);
       return { article: res.data.data };
     });
   },
-  mounted: function() {
-    this.$nextTick(function() {
-      this.init();
+  mounted: function () {
+    this.$nextTick(function () {
+      //   this.init();
     });
   },
   methods: {
-    init: function() {
-      var that = this;
-      // 初始化编辑器
-      ckeditorDocument
-        .create(
-          document.querySelector("#editor"),
-          utils.getEditorConfig({
-            extraPlugins: [uploadAdapter("/editor/upload?action=uploadimage")]
-          })
-        )
-        .then(editor => {
-          that.$refs.toolbar.appendChild(editor.ui.view.toolbar.element);
-          that.editor = editor;
-          editor.model.document.on("change:data", e => {
-            that.content = editor.getData();
-            if (!that.content) {
-              that.placeholder = true;
-            } else {
-              that.placeholder = false;
-            }
-          });
-          this.editor.setData(utils.replaceHost(this.article.content));
-        })
-        .catch(error => {
-          console.error(error);
-        });
+    init: function () {
+
     },
     onReady(editor) {
-      this.ckEditor = editor;
+      this.editor = editor;
       this.$refs.toolbar.appendChild(editor.ui.view.toolbar.element);
     },
-    wordCount: function() {
+    wordCount: function () {
       function modelElementToPlainText(element) {
         if (element.is("text") || element.is("textProxy")) {
           return element.data;
@@ -127,7 +125,7 @@ export default {
       const txt = modelElementToPlainText(this.editor.model.document.getRoot());
       return txt.replace(/\n/g, "").length;
     },
-    onCommit: function() {
+    onCommit: function () {
       var that = this;
       var words = that.wordCount();
       if (!that.article.title) {
@@ -152,9 +150,9 @@ export default {
           id: that.article.id,
           userId: that.article.user.id,
           title: that.article.title,
-          content: that.article.content
+          content: utils.replaceRes(this.article.content)
         })
-        .then(function(res) {
+        .then(function (res) {
           if (res.data.success) {
             that.$message.success("保存成功！");
             window.location.href = that.ctx + "/articles/" + that.article.id;
@@ -163,14 +161,14 @@ export default {
             console.log(res.data.message);
           }
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.log(error);
         });
     },
-    getUser: function(user) {
+    getUser: function (user) {
       this.user = user;
-      this.article.user.id = this.user.id;
-    }
-  }
+        this.article.user.id = this.user.id;
+    },
+  },
 };
 </script>
