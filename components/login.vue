@@ -231,7 +231,7 @@ export default {
         that.getCaptcha();
         return;
       }
-      api
+      this.$axios
         .post("/user/signin", param)
         .then(function(res) {
           if (res.data.success) {
@@ -253,9 +253,8 @@ export default {
         });
     },
     getCaptcha: function() {
-      var that = this;
-      api.get("/user/captcha").then(function(res) {
-        that.captchaHtml = res.data;
+      this.$axios.get("/api/user/captcha").then((res) =>{
+        this.captchaHtml = res.data;
       });
     }
   }

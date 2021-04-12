@@ -82,17 +82,17 @@ module.exports = {
         '/api/': 'http://10.17.1.8:4000',
     },
 
-    publicRuntimeConfig: {
-        axios: {
-            browserBaseURL: process.env.BROWSER_BASE_URL
-        }
-    },
+    // publicRuntimeConfig: {
+    //     axios: {
+    //         browserBaseURL: process.env.BROWSER_BASE_URL
+    //     }
+    // },
 
-    privateRuntimeConfig: {
-        axios: {
-            baseURL: process.env.BASE_URL
-        }
-    },
+    // privateRuntimeConfig: {
+    //     axios: {
+    //         baseURL: process.env.BASE_URL
+    //     }
+    // },
 
     /*
      ** Build configuration

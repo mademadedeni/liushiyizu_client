@@ -1,6 +1,9 @@
 <template>
   <div>
-    <liu-header @get-user="getUser" :tab-id="0"></liu-header>
+    <liu-header
+      @get-user="getUser"
+      :tab-id="0"
+    ></liu-header>
     <liu-main>
       <!-- top -->
       <liu-user-header :user="user"></liu-user-header>
@@ -11,14 +14,21 @@
           <div class="user_content_title">
             <span class="title">个人信息</span>
             <div class="right">
-              <a @click="editUserInfoBtn" class="iconfont icon-edit" href="javascript:;">编辑</a>
+              <a
+                @click="editUserInfoBtn"
+                class="iconfont icon-edit"
+                href="javascript:;"
+              >编辑</a>
             </div>
           </div>
           <div class="user_base_box">
             <div class="item_box">
               <span class="p_ibt name">头像</span>
               <div class="p_ibt value box_sizing">
-                <a @click="uploadHeadbtn" href="javascript:;">更换头像</a>
+                <a
+                  @click="uploadHeadbtn"
+                  href="javascript:;"
+                >更换头像</a>
               </div>
             </div>
             <div class="item_box">
@@ -65,7 +75,10 @@
       style="display:none;"
     >
       <div class="dialog_content">
-        <img class="img" :src="uploadHeadImg" />
+        <img
+          class="img"
+          :src="uploadHeadImg"
+        />
         <el-upload
           ref="upload"
           :action="api+'/user/upload/avatar'"
@@ -78,9 +91,15 @@
           <span>上传头像</span>
         </el-upload>
       </div>
-      <span slot="footer" class="dialog-footer">
+      <span
+        slot="footer"
+        class="dialog-footer"
+      >
         <el-button @click="onCloseUploadHead">取 消</el-button>
-        <el-button type="primary" @click="onCommitHead">确 定</el-button>
+        <el-button
+          type="primary"
+          @click="onCommitHead"
+        >确 定</el-button>
       </span>
     </el-dialog>
     <el-dialog
@@ -172,14 +191,24 @@
         <div class="option_box">
           <span class="p_ibt name">个性签名：</span>
           <div class="p_ibt">
-            <textarea v-model.trim="editUser.signature" class="textarea0" maxlength="100"></textarea>
+            <textarea
+              v-model.trim="editUser.signature"
+              class="textarea0"
+              maxlength="100"
+            ></textarea>
             <div class="error">{{signatureError}}</div>
           </div>
         </div>
       </div>
-      <span slot="footer" class="dialog-footer">
+      <span
+        slot="footer"
+        class="dialog-footer"
+      >
         <el-button @click="onCloseUserEdit">取 消</el-button>
-        <el-button type="primary" @click="onCommitEidt">确 定</el-button>
+        <el-button
+          type="primary"
+          @click="onCommitEidt"
+        >确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -193,11 +222,8 @@ import LiuLogin from "~/components/login.vue";
 import LiuUserHeader from "~/components/userHeader.vue";
 import LiuUserNav from "~/components/userNav.vue";
 
-import { api } from "~/assets/js/common/axios.js";
-import _ from "lodash";
 import vuexStore from "~/components/vuexStore.js";
 import utils from "~/assets/js/utils.js";
-import { URL } from "url";
 
 export default {
   components: {
@@ -206,9 +232,9 @@ export default {
     LiuMain,
     LiuLogin,
     LiuUserHeader,
-    LiuUserNav
+    LiuUserNav,
   },
-  data: function() {
+  data: function () {
     return {
       user: {},
       userSex: utils.userSex,
@@ -224,33 +250,29 @@ export default {
       emailError: "",
       addressError: "",
       signatureError: "",
-      imgData: {
-        a: 1,
-        b: "fff"
-      }
-    };
+    }
   },
-  mounted: function() {
-    this.$nextTick(function() {
+  mounted: function () {
+    this.$nextTick(function () {
       this.init();
     });
   },
   methods: {
-    init: function() {},
-    toLogin: function(i) {
+    init: function () {},
+    toLogin: function (i) {
       this.showLogin = i;
     },
-    closeLogin: function() {
+    closeLogin: function () {
       this.showLogin = 0;
     },
-    onCloseUploadHead: function() {
+    onCloseUploadHead: function () {
       this.showUploadHead = false;
     },
-    onCommitHead: function() {
+    onCommitHead: function () {
       this.$refs.upload.submit();
       // this.uploadHeadImg = URL.createObjectURL(file.raw);
     },
-    onSuccess: function(res, file) {
+    onSuccess: function (res, file) {
       if (res.message == "success") {
         this.showUploadHead = false;
         window.location.reload();
@@ -258,7 +280,7 @@ export default {
         this.$message("上传失败!");
       }
     },
-    onChange: function(file, fileList) {
+    onChange: function (file, fileList) {
       const isJPG =
         file.raw.type === "image/jpeg" || file.raw.type === "image/png";
       const isLt2M = file.size / 1024 < 500;
@@ -276,16 +298,16 @@ export default {
       this.$refs.upload.uploadFiles = [file];
       this.uploadHeadImg = window.URL.createObjectURL(file.raw);
     },
-    uploadHeadbtn: function() {
+    uploadHeadbtn: function () {
       this.uploadHeadImg = this.res + this.user.avatar;
       this.showUploadHead = true;
     },
-    getUser: function(user) {
+    getUser: function (user) {
       this.user = user;
     },
-    initUser: function() {
+    initUser: function () {
       var that = this;
-      api.get("/user/userInfo").then(res => {
+      this.$axios.get("/api/user/userInfo").then((res) => {
         if (res.data.success) {
           that.user = res.data.data;
         } else {
@@ -293,21 +315,20 @@ export default {
         }
       });
     },
-    onCloseUserEdit: function() {
+    onCloseUserEdit: function () {
       this.isUserEidtInfo = false;
       this.editUser = {};
     },
-    onCommitEidt: function() {
-      var that = this;
+    onCommitEidt: function () {
       var param = {
-        nickname: that.editUser.nickname,
-        sex: that.editUser.sex,
-        age: that.editUser.age,
-        phone: that.editUser.phone,
-        email: that.editUser.email,
-        nickname: that.editUser.nickname,
-        address: that.editUser.address,
-        signature: that.editUser.signature
+        nickname: this.editUser.nickname,
+        sex: this.editUser.sex,
+        age: this.editUser.age,
+        phone: this.editUser.phone,
+        email: this.editUser.email,
+        nickname: this.editUser.nickname,
+        address: this.editUser.address,
+        signature: this.editUser.signature,
       };
       if (
         (_.isNil(param.nickname) ||
@@ -316,72 +337,72 @@ export default {
           _.size(param.nickname) > 20) &&
         param.nickname != ""
       ) {
-        that.nicknameError = "昵称为1-20个字符";
+        this.nicknameError = "昵称为1-20个字符";
         return;
       } else {
-        that.nicknameError = "";
+        this.nicknameError = "";
       }
       if (
         !_.isNil(param.age) &&
         param.age !== "" &&
         !utils.isInteger(param.age)
       ) {
-        that.ageError = "年龄不符合规则！";
+        this.ageError = "年龄不符合规则！";
         return;
       } else {
-        that.ageError = "";
+        this.ageError = "";
       }
       if (
         !_.isNil(param.phone) &&
         param.phone !== "" &&
         !utils.isPhone(param.phone)
       ) {
-        that.phoneError = "手机号不符合规则！";
+        this.phoneError = "手机号不符合规则！";
         return;
       } else {
-        that.phoneError = "";
+        this.phoneError = "";
       }
       if (
         !_.isNil(param.email) &&
         param.email !== "" &&
         !utils.isEmail(param.email)
       ) {
-        that.emailError = "邮箱不符合规则！";
+        this.emailError = "邮箱不符合规则！";
         return;
       } else {
-        that.emailError = "";
+        this.emailError = "";
       }
       if (
         !_.isNil(param.signature) &&
         param.signature !== "" &&
         /\n/g.test(param.signature)
       ) {
-        that.signatureError = "个性签名不符合规则！";
+        this.signatureError = "个性签名不符合规则！";
         return;
       } else {
-        that.signatureError = "";
+        this.signatureError = "";
       }
 
-      api
-        .post("/users/" + that.user.id + "/update", param)
-        .then(function(res) {
+      this.$axios
+        .post("/api/users/" + this.user.id + "/update", param)
+        .then((res) => {
           if (res.data.success) {
-            that.onCloseUserEdit();
-            that.$message.success("修改成功！");
-            that.initUser();
+            this.onCloseUserEdit();
+            this.$message.success("修改成功！");
+            this.initUser();
           } else {
-            that.$message.error(res.data.message);
+            this.$message.error(res.data.message);
           }
         })
-        .catch(function(err) {
+        .catch((err) => {
           console.log(err);
-          that.$message.error("服务器错误！");
+          this.$message.error("服务器错误！");
         });
     },
-    editUserInfoBtn: function() {
+    editUserInfoBtn: function () {
       this.editUser = _.clone(this.user);
       this.isUserEidtInfo = true;
-    }
-  }
+    },
+  },
 };
 </script>

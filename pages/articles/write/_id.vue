@@ -77,7 +77,6 @@ export default {
       showUploadHead: true,
       user: {},
       editor: {},
-      placeholder: true,
       CKEDITOR: ckeditorDocument,
       editorConfig: utils.getEditorConfig({
         placeholder: '请输入正文',
@@ -85,8 +84,8 @@ export default {
       }),
     };
   },
-  asyncData: function ({ params }) {
-    return api.get("/articles/" + params.id).then((res) => {
+  asyncData: function ({ params, $axios }) {
+    return $axios.get("/api/articles/" + params.id).then((res) => {
       res.data.data.content = utils.replaceHost(res.data.data.content);
       return { article: res.data.data };
     });

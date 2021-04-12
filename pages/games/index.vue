@@ -14,7 +14,6 @@
 import Main from "~/components/main.vue";
 import Header from "~/components/header.vue";
 import Footer from "~/components/footer.vue";
-import { api } from "~/assets/js/common/axios.js";
 
 export default {
   components: {

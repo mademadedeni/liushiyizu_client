@@ -1,19 +1,41 @@
 <template>
   <div>
-    <header id="liuHeader" class="liu_header">
+    <header
+      id="liuHeader"
+      class="liu_header"
+    >
       <div class="content_box">
-        <a class="p_ibt logo" :href="ctx"></a>
+        <a
+          class="p_ibt logo"
+          :href="ctx"
+        ></a>
         <div class="p_ibt nav_box">
-          <a :class="{on:defaultActive == 1}" class="p_ibt nav" :href="ctx">首页</a>
+          <a
+            :class="{on:defaultActive == 1}"
+            class="p_ibt nav"
+            :href="ctx"
+          >首页</a>
           <a
             v-if="user.user_permission == 1"
             :class="{on:defaultActive == 2}"
             class="p_ibt nav"
             :href="ctx+'/notes'"
           >笔记</a>
-          <a :class="{on:defaultActive == 3}" class="p_ibt nav" :href="ctx+'/games'">游戏</a>
-          <a :class="{on:defaultActive == 4}" class="p_ibt nav" :href="ctx+'/articles'">文章</a>
-          <a :class="{on:defaultActive == 5}" class="p_ibt nav" :href="ctx+'/travels'">游记</a>
+          <a
+            :class="{on:defaultActive == 3}"
+            class="p_ibt nav"
+            :href="ctx+'/games'"
+          >游戏</a>
+          <a
+            :class="{on:defaultActive == 4}"
+            class="p_ibt nav"
+            :href="ctx+'/articles'"
+          >文章</a>
+          <a
+            :class="{on:defaultActive == 5}"
+            class="p_ibt nav"
+            :href="ctx+'/travels'"
+          >游记</a>
         </div>
         <div class="right">
           <div class="p_ibt search_box">
@@ -25,32 +47,69 @@
               maxlength="30"
               placeholder="你想知道什么？"
             />
-            <a class="iconfont icon-search" :href="searchUrl+searchValue" target="_blank"></a>
+            <a
+              class="iconfont icon-search"
+              :href="searchUrl+searchValue"
+              target="_blank"
+            ></a>
           </div>
-          <div v-if="!_.isEmpty(user)" class="p_ibt liu_header_box">
+          <div
+            v-if="!_.isEmpty(user)"
+            class="p_ibt liu_header_box"
+          >
             <div class="menu_box">
-              <a class="p_ibt head" :href="ctx+'/user'">
-                <img :src="res+user.avatar" :title="user.name" />
+              <a
+                class="p_ibt head"
+                :href="ctx+'/user'"
+              >
+                <img
+                  :src="res+user.avatar"
+                  :title="user.name"
+                />
               </a>
               <div class="menu_conent">
                 <div class="item_box">
-                  <a class="p_ibt item" :href="ctx+'/user'">个人中心</a>
-                  <a class="p_ibt item" :href="ctx+'/articles/write'">写好文章</a>
+                  <a
+                    class="p_ibt item"
+                    :href="ctx+'/user'"
+                  >个人中心</a>
+                  <a
+                    class="p_ibt item"
+                    :href="ctx+'/articles/write'"
+                  >写好文章</a>
                 </div>
                 <div class="exit_box">
-                  <a @click="onExit" class="p_ibt exit_btn" href="javascript:;">安全退出</a>
+                  <a
+                    @click="onExit"
+                    class="p_ibt exit_btn"
+                    href="javascript:;"
+                  >安全退出</a>
                 </div>
               </div>
             </div>
           </div>
-          <div v-if="_.isEmpty(user)" class="p_ibt sign_box">
-            <a @click="show('login')" class="sign_btn" href="javascript:;">登陆</a>
-            <a @click="show('register')" class="sign_btn" href="javascript:;">注册</a>
+          <div
+            v-if="_.isEmpty(user)"
+            class="p_ibt sign_box"
+          >
+            <a
+              @click="show('login')"
+              class="sign_btn"
+              href="javascript:;"
+            >登陆</a>
+            <a
+              @click="show('register')"
+              class="sign_btn"
+              href="javascript:;"
+            >注册</a>
           </div>
         </div>
       </div>
     </header>
-    <Login ref="login" :visible.sync="isShow" />
+    <Login
+      ref="login"
+      :visible.sync="isShow"
+    />
   </div>
 </template>
 
@@ -66,53 +125,51 @@ export default {
   name: "liuHeader",
   props: {
     defaultActive: [String, Number],
-    userData: ""
+    userData: "",
   },
   components: {
-    Login
+    Login,
   },
-  data: function() {
+  data: function () {
     return {
       searchValue: "", //搜索内容
       searchUrl: "/search?value=",
       user: {},
-      isShow: ""
+      isShow: "",
     };
   },
-  mounted: function() {
-    this.$nextTick(function() {
+  mounted: function () {
+    this.$nextTick(function () {
       this.init();
     });
   },
   methods: {
-    init: function() {
-      var _this = this;
-      api
-        .get("/user/userInfo", { withCredentials: true })
-        .then(function(res) {
+    init: function () {
+      this.$axios
+        .get("/api/user/userInfo", { withCredentials: true })
+        .then((res) => {
           if (res.data.success) {
-            _this.user = res.data.data;
+            this.user = res.data.data;
           }
-          if (!_.isEmpty(_this.user)) {
-            _this.$emit("get-user", _this.user);
+          if (!_.isEmpty(this.user)) {
+            this.$emit("get-user", this.user);
           }
         })
-        .catch(error => {
+        .catch((error) => {
           console.error(error);
         });
     },
-    onSearchBtn: function() {},
+    onSearchBtn: function () {},
     /**
      * type:string ['login','register']
      **/
     show(type) {
       this.isShow = type;
     },
-    onExit: function() {
-      var that = this;
-      api
+    onExit: function () {
+      this.$axios
         .post("/user/exit")
-        .then(function(res) {
+        .then(function (res) {
           if (res.data.message == "success") {
             sessionStorage.removeItem("userData");
             window.location.reload();
@@ -120,11 +177,11 @@ export default {
             that.$message.error("退出失败！");
           }
         })
-        .catch(function(error) {
+        .catch(function (error) {
           that.$message.error("退出失败！");
         });
-    }
-  }
+    },
+  },
 };
 </script>
 

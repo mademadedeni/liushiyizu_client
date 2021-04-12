@@ -7,7 +7,7 @@
         <div>
           <el-input
             placeholder="请输入标题（最多50个字）"
-            v-model.trim="article.title"
+            v-model="article.title"
             :maxlength="50"
             :minlength="3"
             clearable
@@ -16,8 +16,14 @@
         <div class="Ptp30">
           <div ref="toolbar"></div>
           <div class="Mtp30 posr">
-            <div v-show="placeholder" class="ckeditor_placeholder">请输入正文</div>
-            <div id="editor"></div>
+            <no-ssr>
+              <ckeditor
+                :editor="CKEDITOR"
+                v-model="article.content"
+                :config="editorConfig"
+                @ready="onReady"
+              ></ckeditor>
+            </no-ssr>
           </div>
         </div>
         <div class="Ptp30 Tright">
@@ -63,8 +69,11 @@ export default {
       showUploadHead: true,
       user: {},
       editor: {},
-      placeholder: true,
-      content: ""
+      CKEDITOR: ckeditorDocument,
+      editorConfig: utils.getEditorConfig({
+        placeholder: '请输入正文',
+        extraPlugins: [uploadAdapter("/editor/upload?action=uploadimage")],
+      }),
     };
   },
   mounted: function() {
@@ -74,33 +83,10 @@ export default {
   },
   methods: {
     init: function() {
-      var that = this;
-      // 初始化编辑器
-      ckeditorDocument
-        .create(
-          document.querySelector("#editor"),
-          utils.getEditorConfig({
-            extraPlugins: [uploadAdapter("/editor/upload?action=uploadimage")]
-          })
-        )
-        .then(editor => {
-          that.$refs.toolbar.appendChild(editor.ui.view.toolbar.element);
-          that.editor = editor;
-          editor.model.document.on("change:data", e => {
-            that.content = editor.getData();
-            if (!that.content) {
-              that.placeholder = true;
-            } else {
-              that.placeholder = false;
-            }
-          });
-        })
-        .catch(error => {
-          console.error(error);
-        });
+
     },
     onReady(editor) {
-      this.ckEditor = editor;
+      this.editor = editor;
       this.$refs.toolbar.appendChild(editor.ui.view.toolbar.element);
     },
     wordCount: function() {

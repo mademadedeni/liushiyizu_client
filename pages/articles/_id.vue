@@ -1,12 +1,18 @@
 <template>
   <div>
-    <LiuHeader @get-user="getUser" default-active="4"></LiuHeader>
+    <LiuHeader
+      @get-user="getUser"
+      default-active="4"
+    ></LiuHeader>
     <LiuMain>
       <div class="auto_box wid900">
         <div class="Ptp30">
           <h1 class="p_ibt co_333">{{article.title}}</h1>
           <div class="article_author">
-            <img class="img" :src="res+article.user.avatar" />
+            <img
+              class="img"
+              :src="res+article.user.avatar"
+            />
             <div class="p_ibt Mlf20">
               <span class="p_ibt Mtp10">{{article.user.nickname}}</span>
             </div>
@@ -49,62 +55,61 @@ export default {
   components: {
     LiuHeader,
     LiuMain,
-    LiuFooter
+    LiuFooter,
   },
   data() {
     return {
       user: {},
-      article: {}
+      article: {},
     };
   },
-  asyncData({ params }) {
-    return api
-      .get("/articles/" + params.id)
-      .then(res => {
+  asyncData({ $axios, params }) {
+    return $axios
+      .get("/api/articles/" + params.id)
+      .then((res) => {
         res.data.data.content = utils.replaceHost(res.data.data.content);
         return { article: res.data.data };
       })
-      .catch(err => {
+      .catch((err) => {
         return {};
       });
   },
   head() {
     return {
-      title: this.article.title + this.title
+      title: this.article.title + this.title,
     };
   },
-    validate({ params }) {
-      // 必须是number类型
-      return (params.id+"").length == 32;
-    },
-  mounted: function() {
-    this.$nextTick(function() {
+  validate({ params }) {
+    // 必须是number类型
+    return (params.id + "").length == 32;
+  },
+  mounted: function () {
+    this.$nextTick(function () {
       // this.init();
     });
   },
   computed: {
-    isCreator: function() {
+    isCreator: function () {
       return this.article.user.id == this.user.id;
-    }
+    },
   },
   methods: {
-    init: function() {
-      var that = this;
+    init: function () {
       //获取文章内容
       if (article_id) {
-        api.get("/articles/" + article_id).then(function(res) {
+        this.$axios.get("/api/articles/" + article_id).then((res) => {
           if (res.data.message == "success") {
             that.article = res.data.data;
           }
         });
       }
     },
-    dateFormat: function(date) {
+    dateFormat: function (date) {
       return utils.dateFormat({ dateTime: date });
     },
-    getUser: function(user) {
+    getUser: function (user) {
       this.user = user;
-    }
-  }
+    },
+  },
 };
 </script>
