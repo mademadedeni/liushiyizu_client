@@ -19,7 +19,7 @@
     "cross-env": "^5.2.0",
     "element-ui": "^2.11.1",
     "koa": "^2.6.2",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.21",
     "nuxt": "^2.8.1"
   },
   "devDependencies": {
